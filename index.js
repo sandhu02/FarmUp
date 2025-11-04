@@ -17,7 +17,7 @@ app.use(express.json());
 // routes
 app.get('/');
 app.use("/auth", authRouter)
-app.use("/admin", adminRouter)
+app.use("/admin", adminRouter) 
 app.use("/farmer", farmerRouter)
 
 // Start server
