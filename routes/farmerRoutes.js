@@ -30,7 +30,7 @@ router.get("/weather", verifyToken, async (req, res) => {
     const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY;
 
     try {
-        const city = req.query.city;
+        const city = req.query.city || "Lahore";
 
         if (!city) {
             return res.status(400).json({
@@ -142,8 +142,41 @@ router.get("/weather/all", async (req, res) => {
     }
 });
 
-router.get("/forecast", verifyToken, async (req, res) => { })
-router.get("/forecast", verifyToken, async (req, res) => { })
+// router.get("/forecast", verifyToken, async (req, res) => { })
+
+
+// routes/admin.js
+router.get("/forecast", async (req, res) => {
+  const city = req.query.city || "Lahore";
+
+  try {
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/2.5/forecast`,
+      {
+        params: {
+          q: city,
+          appid: process.env.OPENWEATHER_API_KEY,
+          units: "metric",
+        },
+      }
+    );
+
+    const forecast = response.data.list.map((item) => ({
+      datetime: item.dt_txt,
+      temperature: item.main.temp,
+      condition: item.weather[0].main,
+      humidity: item.main.humidity,
+    }));
+
+    res.json({
+      city: response.data.city.name,
+      forecast,
+    });
+  } catch (err) {
+    console.error("OpenWeather forecast error:", err.message);
+    res.status(500).json({ message: "Failed to fetch forecast" });
+  }
+});
 
 router.get("/advice", verifyToken, async (req, res) => {
     const city = req.query.city;
@@ -163,6 +196,12 @@ router.get("/advice", verifyToken, async (req, res) => {
             headers: { Authorization: req.headers.authorization }, // reuse token
         }
         );
+        const forecastRes = await axios.get(
+        `http://localhost:${process.env.PORT}/farmer/forecast?city=${encodeURIComponent(city)}`,
+        {
+            headers: { Authorization: req.headers.authorization }, // reuse token
+        }
+        );
         
         const prompt = `
             You are an agriculture advisor AI helping Pakistani farmers.
@@ -172,6 +211,7 @@ router.get("/advice", verifyToken, async (req, res) => {
             City: ${city || "Unknown"}
             Weather: ${weatherRes.data || "Normal"}
             Temperature: ${weatherRes.data.temperature || "N/A"}°C
+            Forecast: ${forecastRes.data || "N/A"}
             Price Trend: ${priceTrend || "Stable"}
     
             Example advice:
