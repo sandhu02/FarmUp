@@ -1,5 +1,7 @@
 const express = require('express');
 const authRouter = require("./routes/authRoutes")
+const adminRouter = require("./routes/adminRoutes")
+const farmerRouter = require("./routes/farmerRoutes")
 require('dotenv').config();
 
 
@@ -15,6 +17,8 @@ app.use(express.json());
 // routes
 app.get('/');
 app.use("/auth", authRouter)
+app.use("/admin", adminRouter)
+app.use("/farmer", farmerRouter)
 
 // Start server
 app.listen(port, () => {
