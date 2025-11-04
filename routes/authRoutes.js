@@ -53,12 +53,12 @@ router.post("/register" , async (req,res)=> {
         console.log(req.body)
         const {name, role, username, password} = req.body
         
-        // if (role == "admin"){
-        //     return res.send({
-        //         success : false ,
-        //         message : "Admin Cannot Register"
-        //     })
-        // }
+        if (role == "admin"){
+            return res.send({
+                success : false ,
+                message : "Admin Cannot Register"
+            })
+        }
 
         const alreadyExists = await User.findOne({role,username})
         if (alreadyExists){ 
