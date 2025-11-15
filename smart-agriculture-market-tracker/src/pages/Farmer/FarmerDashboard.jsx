@@ -1,61 +1,101 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { getMarketData } from "../../api/farmerApi";
+import { getAdviceData, getLocationByIP, getMarketData } from "../../api/farmerApi";
+import ItemCard from "./ItemCard";
+import FarmerHeader from "./FarmerHeader";
+import "./FarmerDashboard.css"
 
 function FarmerDashboard() {
   const { token } = useContext(AuthContext); // get JWT token
-  const [marketData, setMarketData] = useState([]);
+  const [items, setItems] = useState([]);
+  const [advice, setAdvice] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [city, setCity] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await getMarketData(token);
-
-        if (response.success) {
-          setMarketData(response.data);
-        } else {
-          setError(response.message || "Failed to fetch market data");
-        }
-      } catch (err) {
-        console.error(err);
-        setError("Server error, please try again");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    fetchItems();
+    fetchAdvice();
+    fetchLocation();
   }, [token]);
+  
+  useEffect(() => {
+    if (successMessage || errorMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+        setErrorMessage("");
+      }, 3000); // 5 seconds
+      
+      // Cleanup timer on unmount or when messages change
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, errorMessage]);
+  
+  const fetchItems = async () => {
+    try {
+      setLoading(true);
+      const response = await getMarketData(token);
+
+      if (response.success) {
+        setItems(response.data || []);
+      } else {
+        setErrorMessage(response.message || "Failed to fetch market data");
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage("Fetching Items: Server error, please try again");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAdvice = async () => {
+    try{
+      const response = await getAdviceData(token);
+      if (response.success){
+        setAdvice(response.text)
+      }
+      else {
+        console.log(response.message)
+      }
+    }
+    catch (err) {
+      console.error(err);
+      setErrorMessage("Fetching Advice: Server error, please try again");
+    }
+  };
+  
+  const fetchLocation = async () => {
+    try{
+      const response = await getLocationByIP(token)
+      if (response.success){
+        setCity(response.city)
+      }
+      else {
+        console.log(response.message)
+      }
+    }
+    catch (err) {
+      console.error(err);
+      setErrorMessage("Fetching City: Server error");
+    }
+  };
+
+  const handleRefresh = () => {
+        fetchItems();
+  };
+
 
   if (loading) return <p>Loading market data...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div className="farmer-dashboard">
-      <header className="admin-header">
-          <div>
-              <h1>Market Items</h1>
-              {/* {successMessage && <p className="success-text">{successMessage}</p>}
-              {errorMessage && <p className="error-text">{errorMessage}</p>} */}
-          </div>
-          <div className="header-actions">
-            <button 
-                className="btn btn-secondary"
-                // onClick={handleRefresh}
-            >
-                Check Weather
-            </button>
-            <button 
-                className="btn btn-primary"
-                // onClick={() => setShowAddForm(true)}
-            >
-                See Weather Map 
-            </button>
-          </div>
-      </header>
+      <FarmerHeader city={city}/>
+      {successMessage && <p className="success-text">{successMessage}</p>}
+      {errorMessage && <p className="error-text">{errorMessage}</p>}
       <span>
         <div className="items-container">
             {items.length === 0 ? (
@@ -69,39 +109,15 @@ function FarmerDashboard() {
             ) : (
             <div className="items-list">
                 {items.map((item) => (
-                <div key={item._id} className="item-card">
-                    <div className="item-header">
-                    <h3 className="item-name">{item.itemName}</h3>
-                    <span className={`category-badge ${item.category}`}>
-                        {item.category}
-                    </span>
-                    </div>
-                    
-                    <div className="item-details">
-                    <p className="item-price">Rs. {item.price} / {item.unit}</p>
-                    <p className="item-region">Region: {item.region}</p>
-                    <p className="item-date">
-                        Added: {new Date(item.date).toLocaleDateString()}
-                    </p>
-                    </div>
-
-                    {item.priceHistory && item.priceHistory.length > 0 && (
-                    <div className="price-history">
-                        <p>Last price: {item.priceHistory[0].price}</p>
-                        <small>
-                        {new Date(item.priceHistory[0].date).toLocaleDateString()}
-                        </small>
-                    </div>
-                    )}
-
-                </div>
+                    <ItemCard key={item._id} item={item} />
                 ))}
             </div>
             )}
         </div>
 
         <div className="advice-container">
-          
+          <h2>⚠️ Remember</h2>
+          {advice}
         </div>
 
       </span>

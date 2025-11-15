@@ -5,6 +5,8 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register"; 
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import FarmerDashboard from "../pages/Farmer/FarmerDashboard";
+import WeatherMap from "../pages/Farmer/WeatherMap";
+import CheckWeather from "../pages/Farmer/CheckWeather";
 
 const PrivateRoute = ({ children, role }) => {
   const { user } = useContext(AuthContext);
@@ -30,6 +32,22 @@ const AppRoutes = () => (
       element={
         <PrivateRoute role="farmer">
           <FarmerDashboard />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/weatherMap"
+      element={
+        <PrivateRoute role="farmer">
+          <WeatherMap />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/checkWeather"
+      element={
+        <PrivateRoute role="farmer">
+          <CheckWeather />
         </PrivateRoute>
       }
     />

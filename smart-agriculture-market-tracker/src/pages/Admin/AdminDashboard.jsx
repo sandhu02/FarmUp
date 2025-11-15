@@ -29,7 +29,7 @@ const AdminDashboard = () => {
             const timer = setTimeout(() => {
                 setSuccessMessage("");
                 setErrorMessage("");
-            }, 3000); // 5 seconds
+            }, 3000); // 3 seconds
 
             // Cleanup timer on unmount or when messages change
             return () => clearTimeout(timer);
@@ -39,35 +39,38 @@ const AdminDashboard = () => {
     // Fetch all items with better error handling
     const fetchItems = async () => {
         try {
-        setLoading(true);
+            setLoading(true);
 
-        const response = await marketAPI.getItems(token);
-        console.log("Full API response:", response);
+            const response = await marketAPI.getItems(token);
+            console.log("Full API response:", response);
         
-        if (response && response.success) {
-            setItems(response.data || []);
-            console.log("Items set:", response.data);
-        } else {
-            throw new Error(response?.message || "Failed to fetch items");
-        }
-        } catch (error) {
-        console.error("Error in fetchItems:", error);
-        console.error("Error details:", {
-            message: error.message,
-            response: error.response?.data,
-            status: error.response?.status
-        });
+            if (response && response.success) {
+                setItems(response.data || []);
+                console.log("Items set:", response.data);
+            } 
+            else {
+                throw new Error(response?.message || "Failed to fetch items");
+            }
+        } 
+        catch (error) {
+                console.error("Error in fetchItems:", error);
+                console.error("Error details:", {
+                message: error.message,
+                response: error.response?.data,
+                status: error.response?.status
+            });
         
-        if (error.response?.status === 401) {
-            alert("Session expired. Please log in again.");
-        } else if (error.response?.status === 403) {
-            alert("Access denied. Admin privileges required.");
-        } else {
-            alert(error.message || "Error fetching items. Check console for details.");
-        }
-        setItems([]);
-        } finally {
-        setLoading(false);
+            if (error.response?.status === 401) {
+                alert("Session expired. Please log in again.");
+            } else if (error.response?.status === 403) {
+                alert("Access denied. Admin privileges required.");
+            } else {
+                alert(error.message || "Error fetching items. Check console for details.");
+            }
+            setItems([]);
+        } 
+        finally {
+            setLoading(false);
         }
     };
 
@@ -305,10 +308,10 @@ const AdminDashboard = () => {
                 <div className="form-group">
                     <label>Region:</label>
                     <input
-                    type="text"
-                    name="region"
-                    value={newItem.region}
-                    onChange={handleInputChange}
+                        type="text"
+                        name="region"
+                        value={newItem.region}
+                        onChange={handleInputChange}
                     required
                     />
                 </div>
