@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -14,6 +15,7 @@ export const AuthProvider = ({ children }) => {
       setUser(storedUser);
       setToken(storedToken);
     }
+    setLoading(false); 
   }, []);
 
   // Save to localStorage when user/token changes
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   }, [user, token]);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, token, setToken }}>
+    <AuthContext.Provider value={{ user, setUser, token, setToken, loading }}>
       {children}
     </AuthContext.Provider>
   );

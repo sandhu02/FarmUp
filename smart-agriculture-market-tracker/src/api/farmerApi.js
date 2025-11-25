@@ -19,6 +19,7 @@ export const getAdviceData = async (token) => {
       Authorization: `Bearer ${token}` ,
     },
   })
+  console.log(response.data)
   return response.data;
 }
 
@@ -29,4 +30,23 @@ export const getLocationByIP = async (token) => {
     },
   })
   return response.data;
+}
+
+
+export const getWeather = async (city , token) => {
+  const response = await axios.get(`${BASE_URL}/farmer/weather?city=${encodeURIComponent(city)}`, {
+      headers : {
+      Authorization: `Bearer ${token}` ,
+    },
+  }) 
+  return response.data
+}
+
+export const getforecast = async (city , token) => {
+  const response = await axios.get(`${BASE_URL}/farmer/forecast?city=${encodeURIComponent(city)}`, {
+      headers : {
+      Authorization: `Bearer ${token}` ,
+    },
+  }) 
+  return response.data
 }

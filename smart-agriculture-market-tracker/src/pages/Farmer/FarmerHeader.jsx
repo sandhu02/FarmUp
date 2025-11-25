@@ -13,7 +13,7 @@ function FarmerHeader({city}){
                 <p>📍{city}</p>
                 <button 
                     className="btn btn-secondary"
-                    onClick={() => navigate("/checkWeather")}
+                    onClick={() => navigate("/checkWeather" , { state: { city } })}
                 >
                     Check Weather
                 </button>

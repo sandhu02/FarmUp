@@ -59,7 +59,7 @@ const Login = () => {
         setError(response.message);
       }
     } catch (err) {
-      console.error(err);
+      console.log(err);
       setError("Server error, please try again.");
     } finally {
       setLoading(false);

@@ -1,0 +1,247 @@
+/* ItemDetail.css */
+.item-detail-container {
+    width: 96vw;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Back Button */
+.back-button {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background: #5a6268;
+}
+
+/* Error State */
+.item-detail-error {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.item-detail-error h2 {
+    margin-bottom: 15px;
+    color: #dc3545;
+}
+
+/* Main Card */
+.item-detail-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+/* Header Section */
+.item-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.item-detail-title {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Category Tags */
+.category-tag {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.category-vegetables {
+    background: #d4edda;
+    color: #155724;
+}
+
+.category-fruits {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.category-grains {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.category-dairy {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+.category-meat {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Info Grid */
+.item-detail-info {
+    margin-bottom: 40px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.info-label {
+    font-size: 12px;
+    color: #6c757d;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 16px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.price-highlight {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.category-value {
+    text-transform: capitalize;
+}
+
+/* Price History Section */
+.price-history-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #e9ecef;
+}
+
+.section-title {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* Price Stats */
+.price-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .item-detail-container {
+        padding: 15px;
+    }
+    
+    .item-detail-card {
+        padding: 20px;
+    }
+    
+    .item-detail-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .item-detail-title {
+        font-size: 2rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .price-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .item-detail-title {
+        font-size: 1.5rem;
+    }
+    
+    .back-button {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Animation */
+.item-detail-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading state for chart */
+.price-history-section.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}

@@ -7,9 +7,14 @@ import AdminDashboard from "../pages/Admin/AdminDashboard";
 import FarmerDashboard from "../pages/Farmer/FarmerDashboard";
 import WeatherMap from "../pages/Farmer/WeatherMap";
 import CheckWeather from "../pages/Farmer/CheckWeather";
+import ItemDetail from "../pages/Farmer/ItemDetail";
 
 const PrivateRoute = ({ children, role }) => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+  if (loading) {
+    return <div>Loading...</div>; // Or your custom loader
+  }
+  
   if (!user) return <Navigate to="/login" />;
   if (role && user.role !== role) return <Navigate to="/login" />;
   return children;
@@ -32,6 +37,14 @@ const AppRoutes = () => (
       element={
         <PrivateRoute role="farmer">
           <FarmerDashboard />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/ItemDetail"
+      element={
+        <PrivateRoute role="farmer">
+          <ItemDetail />
         </PrivateRoute>
       }
     />

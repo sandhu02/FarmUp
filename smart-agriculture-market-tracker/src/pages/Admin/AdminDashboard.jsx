@@ -179,11 +179,11 @@ const AdminDashboard = () => {
     const startEditItem = (item) => {
         setEditingItem(item);
         setNewItem({
-        itemName: item.itemName,
-        category: item.category,
-        price: item.price.toString(),
-        unit: item.unit,
-        region: item.region
+            itemName: item.itemName,
+            category: item.category,
+            price: item.price.toString(),
+            unit: item.unit,
+            region: item.region
         });
         setShowAddForm(true);
     };
@@ -360,9 +360,12 @@ const AdminDashboard = () => {
 
                     {item.priceHistory && item.priceHistory.length > 0 && (
                     <div className="price-history">
-                        <p>Last price: ₹{item.priceHistory[0].price}</p>
+                        <p>Last price: Rs. {item.priceHistory[item.priceHistory.length - 2]?.price ? item.priceHistory[item.priceHistory.length - 2].price : "No previous data"}</p>
                         <small>
-                        {new Date(item.priceHistory[0].date).toLocaleDateString()}
+                            {item.priceHistory.length > 1 
+                            ? new Date(item.priceHistory[item.priceHistory.length - 2].date).toLocaleDateString()
+                            : "No previous date"
+                        }
                         </small>
                     </div>
                     )}

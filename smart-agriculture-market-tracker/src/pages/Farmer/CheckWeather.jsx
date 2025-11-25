@@ -1,70 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './CheckWeather.css';
+import { AuthContext } from "../../context/AuthContext";
+import { getforecast, getWeather } from '../../api/farmerApi';
+import { useLocation } from "react-router-dom";
+
 
 function CheckWeather() {
-    const [city, setCity] = useState('Haroonabad');
+    const location = useLocation();
+    const { city : argCity } = location.state || {};
+    console.log("argciy" , argCity)
+
+    const { token } = useContext(AuthContext); // get JWT token
+    const [city, setCity] = useState(argCity);
     const [currentWeather, setCurrentWeather] = useState(null);
     const [forecast, setForecast] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // Mock current weather data
-    const mockCurrentWeather = {
-        "success": true,
-        "city": "Haroonabad",
-        "country": "PK",
-        "temperature": 21.57,
-        "feels_like": 20.15,
-        "humidity": 14,
-        "weather": "clear sky",
-        "wind_speed": 1.47,
-        "icon": "https://openweathermap.org/img/wn/01n.png",
-        "timestamp": "2025-11-11T13:31:58.450Z"
-    };
-
-    // Mock forecast data
-    const mockForecast = {
-        "city": "Haroonabad",
-        "forecast": [
-            {
-                "datetime": "2025-11-11 15:00:00",
-                "temperature": 20.77,
-                "condition": "Clouds",
-                "humidity": 15
-            },
-            {
-                "datetime": "2025-11-11 18:00:00",
-                "temperature": 20.27,
-                "condition": "Clouds",
-                "humidity": 16
-            },
-            {
-                "datetime": "2025-11-11 21:00:00",
-                "temperature": 18.89,
-                "condition": "Clear",
-                "humidity": 16
-            },
-            {
-                "datetime": "2025-11-12 00:00:00",
-                "temperature": 16.52,
-                "condition": "Clear",
-                "humidity": 17
-            },
-            {
-                "datetime": "2025-11-12 03:00:00",
-                "temperature": 19.74,
-                "condition": "Clear",
-                "humidity": 14
-            },
-            {
-                "datetime": "2025-11-12 06:00:00",
-                "temperature": 26.63,
-                "condition": "Clear",
-                "humidity": 10
-            },
-        ]
-    };
-
+    
     const handleInputChange = (e) => {
         setCity(e.target.value);
     };
@@ -76,16 +29,11 @@ function CheckWeather() {
         setError('');
         
         try {
-            // Simulate API call delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const weatherResponse = await getWeather(city , token)
+            const forecastResponse = await getforecast(city)
             
-            // Replace with actual API calls
-            // const currentResponse = await fetch(`/api/current-weather?city=${city}`);
-            // const forecastResponse = await fetch(`/api/forecast?city=${city}`);
-            
-            // For demo, using mock data
-            setCurrentWeather(mockCurrentWeather);
-            setForecast(mockForecast);
+            setCurrentWeather(weatherResponse);
+            setForecast(forecastResponse);
             
         } catch (err) {
             setError('Failed to fetch weather data. Please try again.');
@@ -111,6 +59,7 @@ function CheckWeather() {
         if (conditionLower.includes('cloud')) return '☁️';
         if (conditionLower.includes('rain')) return '🌧️';
         if (conditionLower.includes('snow')) return '❄️';
+        if (conditionLower.includes('smoke')) return '💨';
         if (conditionLower.includes('thunder')) return '⛈️';
         if (conditionLower.includes('haze') || conditionLower.includes('fog')) return '🌫️';
         return '🌈';
@@ -195,17 +144,7 @@ function CheckWeather() {
                                 </div>
                                 
                                 <div className="weather-icon">
-                                    <img 
-                                        src={currentWeather.icon} 
-                                        alt={currentWeather.weather}
-                                        onError={(e) => {
-                                            e.target.style.display = 'none';
-                                            e.target.nextSibling.style.display = 'block';
-                                        }}
-                                    />
-                                    <span className="emoji-fallback" style={{display: 'none'}}>
-                                        {getWeatherIcon(currentWeather.weather)}
-                                    </span>
+                                    {getWeatherIcon(currentWeather.weather)}
                                 </div>
                             </div>
                             

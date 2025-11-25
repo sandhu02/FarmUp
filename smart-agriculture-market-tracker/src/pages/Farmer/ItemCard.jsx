@@ -1,8 +1,16 @@
 import './ItemCard.css';
+import { useNavigate } from "react-router-dom";
+
 
 function ItemCard({item}) {
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate(`/itemDetail`, { state: { item } });
+    };
+
     return (
-        <div key={item._id} className="item-card">
+        <div key={item._id} className="item-card" onClick={handleCardClick}>
             <div className="item-header">
             <h3 className="item-name">{item.itemName}</h3>
             <span className={`category-badge ${item.category}`}>
@@ -20,9 +28,12 @@ function ItemCard({item}) {
 
             {item.priceHistory && item.priceHistory.length > 0 && (
             <div className="price-history">
-                <p>Last price: {item.priceHistory[0].price}</p>
+                <p>Last price: {item.priceHistory[item.priceHistory.length - 2]?.price ? item.priceHistory[item.priceHistory.length - 2].price : "No previous data"}</p>
                 <small>
-                {new Date(item.priceHistory[0].date).toLocaleDateString()}
+                {item.priceHistory.length > 1 
+                    ? new Date(item.priceHistory[item.priceHistory.length - 2].date).toLocaleDateString()
+                    : "No previous date"
+                }
                 </small>
             </div>
             )}

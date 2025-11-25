@@ -37,7 +37,6 @@ function FarmerDashboard() {
     try {
       setLoading(true);
       const response = await getMarketData(token);
-
       if (response.success) {
         setItems(response.data || []);
       } else {
