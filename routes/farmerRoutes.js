@@ -53,7 +53,7 @@ router.get("/weather", verifyToken, async (req, res) => {
         const response = await axios.get(url);
         const data = response.data;
 
-        // ✅ Clean structured response
+        // Clean structured response
         res.status(200).json({
             success: true,
             city: data.name,
@@ -220,6 +220,7 @@ router.get("/advice", verifyToken, async (req, res) => {
             - High temperatures can damage spinach; provide shade.
     
             Now generate similar advice for the above data.
+            don't add anything else like here is your advice
             `;
 
 
@@ -228,7 +229,12 @@ router.get("/advice", verifyToken, async (req, res) => {
 
 
         const result = await model.generateContent(prompt);
-        res.send(result.response.text());
+        res.send(
+            {
+                success:true,
+                text:result.response.text()
+            }
+        );
     } catch (err) {
         console.error("Gemini API error:", err);
         res.status(500).json({ success: false, message: "Failed to fetch AI response" });

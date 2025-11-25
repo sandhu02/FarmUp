@@ -12,6 +12,7 @@ router.post("/login" , async (req ,res) => {
         const {role , username , password} = req.body
 
         const mongodbUser = await User.findOne( {role , username} );
+        
         if (!mongodbUser) {
             return res.status(400).send(
                 {
@@ -36,13 +37,19 @@ router.post("/login" , async (req ,res) => {
             { 
                 success: true,
                 message: "Login successful",
-                token : token
+                token : token,
+                "user": { "role": role }
             }
         );
     }
     catch (err) {
         console.error(err);
-        res.status(500).json({ success: false, message: "Server error" });
+        res.status(500).json(
+            { 
+                success: false,
+                message: "Server error" 
+            }
+        );
     }    
 
 })
@@ -78,7 +85,7 @@ router.post("/register" , async (req,res)=> {
         } catch (err) {
             res.status(400).send({
                 success : false ,
-                message : 'Error creating user'
+                message : `Error creating user : ${err.message}`
             });
         }
     }

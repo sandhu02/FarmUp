@@ -61,20 +61,38 @@ router.post("/marketdata", verifyToken ,async (req, res) => {
   }
 });
 
-// 🟩 Update existing market data
-router.put("/marketdata/:id", async (req, res) => {
+// Update existing market data
+router.put("/marketdata/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
 
-    const updated = await Market.findByIdAndUpdate(id, updates, { new: true });
+    // If price is being updated, we need to handle price history
+    if (updates.price) {
+      // First get the current market entry
+      const currentEntry = await Market.findById(id);
+      
+      if (!currentEntry) {
+        return res.status(404).json({
+          success: false,
+          message: "Market entry not found",
+        });
+      }
 
-    if (!updated) {
-      return res.status(404).json({
-        success: false,
-        message: "Market entry not found",
-      });
+      // Check if price actually changed
+      if (currentEntry.price !== updates.price) {
+        // Create new price history entry
+        const newPriceHistory = {
+          date: new Date(),
+          price: updates.price
+        };
+
+        // Append to existing priceHistory array (don't overwrite)
+        updates.priceHistory = [...currentEntry.priceHistory, newPriceHistory];
+      }
     }
+
+    const updated = await Market.findByIdAndUpdate(id, updates, { new: true });
 
     res.status(200).json({
       success: true,
