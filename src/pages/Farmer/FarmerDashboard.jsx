@@ -68,7 +68,7 @@ function FarmerDashboard() {
   
   const fetchLocation = async () => {
     try{
-      const response = await getLocationByIP(token)
+      const response = await getLocationByIP()
       if (response.success){
         setCity(response.city)
       }

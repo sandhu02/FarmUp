@@ -69,7 +69,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="card">
-        <h2 className="login-title">Smart Agriculture Market Tracker</h2>
+        <h2 className="login-title">FarmUp</h2>
 
         <form onSubmit={handleSubmit} className="login-form">
           <input

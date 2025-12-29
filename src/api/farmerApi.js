@@ -23,12 +23,8 @@ export const getAdviceData = async (token) => {
   return response.data;
 }
 
-export const getLocationByIP = async (token) => {
-  const response = await axios.get(`${BASE_URL}/util/iplocation`, {
-    headers : {
-      Authorization: `Bearer ${token}` ,
-    },
-  })
+export const getLocationByIP = async () => {
+  const response = await axios.get(`https://ipwho.is/`)
   return response.data;
 }
 
