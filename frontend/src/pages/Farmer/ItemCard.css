@@ -1,0 +1,159 @@
+/* Item Card Styles */
+.item-card {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border-color: #28a745;
+}
+
+.item-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #28a745, #20c997);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.item-name {
+  color: #2c5530;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  flex: 1;
+}
+
+/* Category Badges */
+.category-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.category-badge.vegetables {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.category-badge.fruits {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.category-badge.grains {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.category-badge.dairy {
+  background-color: #cce7ff;
+  color: #004085;
+}
+
+.category-badge.other {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Item Details */
+.item-details {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.item-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #28a745;
+  margin: 0 0 8px 0;
+}
+
+.item-region, .item-date {
+  color: #6c757d;
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+/* Price History */
+.price-history {
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 3px solid #28a745;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.price-history p {
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+}
+
+.price-history small {
+  color: #6c757d;
+  font-size: 12px;
+}
+
+/* Responsive Design for Item Card */
+@media (max-width: 768px) {
+  .item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .category-badge {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+  
+  .item-card {
+    padding: 15px;
+  }
+}
+
+/* Scrollbar styling for items list */
+.items-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.items-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.items-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.items-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
