@@ -4,7 +4,6 @@ const authRouter = require("./routes/authRoutes")
 const adminRouter = require("./routes/adminRoutes")
 const farmerRouter = require("./routes/farmerRoutes")
 const communityRouter = require("./routes/communityRoutes")
-const utilRouter = require("./routes/utilRoutes")
 require('dotenv').config();
 
 const app = express();
@@ -28,7 +27,6 @@ app.use("/auth", authRouter)
 app.use("/admin", adminRouter)
 app.use("/farmer", farmerRouter)
 app.use("/community", communityRouter)
-app.use("/util", utilRouter)
 
 // Start server
 app.listen(port, () => {
