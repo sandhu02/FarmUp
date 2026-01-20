@@ -12,6 +12,14 @@ const port = process.env.PORT || 5000;
 
 require('./config/db');
 
+app.use(
+  cors({
+    origin: "*",
+    methods: "*",
+    allowedHeaders: "*",
+  })
+);
+
 app.use(express.json());
 
 app.use("/auth", authRouter)
