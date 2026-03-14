@@ -241,4 +241,16 @@ router.get("/advice", verifyToken, async (req, res) => {
     }
 });
 
+router.get("/iplocation", verifyToken ,async (req, res) => {
+    try {
+        const clientIP = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
+
+        const response = await axios.get(`https://ipwho.is/${clientIP}`);
+
+        res.json(response.data);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to get location: " + err.message });
+    }
+})
+
 module.exports = router;

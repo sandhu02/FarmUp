@@ -69,7 +69,7 @@ function FarmerDashboard() {
   const fetchLocation = async () => {
     try{
       const response = await getLocationByIP()
-      if (response.success){
+      if (response.status === "success"){
         setCity(response.city)
       }
       else {
@@ -78,7 +78,7 @@ function FarmerDashboard() {
     }
     catch (err) {
       console.error(err);
-      setErrorMessage("Fetching City: Server error");
+      setErrorMessage(`Error Fetching City: ${err.message}`);
     }
   };
 

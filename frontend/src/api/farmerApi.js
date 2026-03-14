@@ -24,7 +24,8 @@ export const getAdviceData = async (token) => {
 }
 
 export const getLocationByIP = async () => {
-  const response = await axios.get(`https://ipwho.is/`)
+  // const response = await axios.get(`${BASE_URL}/farmer/iplocation`)
+  const response = await axios.get(`http://ip-api.com/json/`)
   return response.data;
 }
 

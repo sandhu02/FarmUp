@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 
 function CheckWeather() {
     const location = useLocation();
-    const { city : argCity } = location.state || {};
+    const argCity = location.state?.city || "Punjab";
     console.log("argciy" , argCity)
 
     const { token } = useContext(AuthContext); // get JWT token
