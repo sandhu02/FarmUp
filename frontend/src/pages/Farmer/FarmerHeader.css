@@ -60,6 +60,12 @@
   box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
 }
 
+.btn-logout {
+  background-color: #e74c3c;
+  color: white;
+}
+
+
 /* Responsive Design for Header */
 @media (max-width: 768px) {
   .farmer-header {

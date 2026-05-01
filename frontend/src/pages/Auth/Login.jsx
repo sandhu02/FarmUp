@@ -117,6 +117,8 @@ const Login = () => {
           </button>
           
         </form>
+
+        <p>Admin Credentials are: admin / admin</p>
       </div>
     </div>
   );

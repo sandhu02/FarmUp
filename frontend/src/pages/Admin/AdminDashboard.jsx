@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { marketAPI } from "../../api/adminApi";
+import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
     const { token } = useContext(AuthContext); // get JWT token
     const [items, setItems] = useState([]);
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [showAddForm, setShowAddForm] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
@@ -241,6 +243,16 @@ const AdminDashboard = () => {
             >
                 Add New Item
             </button>
+            <button 
+                className="btn btn-logout"
+                onClick={() => {
+                    localStorage.removeItem("token");
+                    navigate("/login");
+                }}
+            >
+                Logout
+            </button>
+
             </div>
         </header>
 

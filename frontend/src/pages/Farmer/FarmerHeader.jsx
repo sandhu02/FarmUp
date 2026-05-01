@@ -23,6 +23,16 @@ function FarmerHeader({city}){
                 >
                     See Weather Map 
                 </button>
+                <button 
+                    className="btn btn-logout"
+                    onClick={() => {
+                        localStorage.removeItem("token");
+                        navigate("/login");
+                    }}
+                >
+                    Logout
+                </button>
+
             </div>
         </header>
     );
